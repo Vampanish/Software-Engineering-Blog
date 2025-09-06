@@ -1,6 +1,10 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom font for headings and body */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Montserrat:wght@700;900&display=swap');
 
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
@@ -8,7 +12,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 222 100% 99%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -17,17 +21,17 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 245 75% 60%;
     --primary-foreground: 210 40% 98%;
-    --primary-muted: 222.2 47.4% 96%;
+    --primary-muted: 245 75% 96%;
 
-    --secondary: 210 40% 96.1%;
+    --secondary: 200 100% 95%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 210 40% 96.1%;
+    --accent: 295 80% 70%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
@@ -37,17 +41,17 @@ All colors MUST be HSL.
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
     /* Shadows & gradients */
     --hero-shadow: 0 20px 60px -20px hsl(var(--primary) / 0.25);
     --card-shadow: 0 12px 30px -12px hsl(var(--primary) / 0.15);
-    --section-gradient: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--muted) / 0.35) 100%);
+    --section-gradient: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--primary) / 0.10) 100%);
 
     /* Typography scale */
-    --text-hero: clamp(2.25rem, 4vw + 1rem, 3.75rem);
-    --text-section: clamp(1.5rem, 2vw + 0.5rem, 2.25rem);
-    --text-card: 1rem;
+    --text-hero: clamp(2.5rem, 5vw + 1rem, 4.5rem);
+    --text-section: clamp(1.75rem, 2.5vw + 0.5rem, 2.75rem);
+    --text-card: 1.1rem;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -104,12 +108,26 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
+
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(120deg, hsl(var(--background)), hsl(var(--secondary)) 100%);
+    min-height: 100vh;
   }
-  
+
   html {
     scroll-behavior: smooth;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', 'Inter', Arial, sans-serif;
+    letter-spacing: -0.01em;
+    font-weight: 800;
+  }
+
+  strong {
+    font-weight: 700;
+    color: hsl(var(--primary));
   }
 
   /* Custom scrollbar */
@@ -135,6 +153,10 @@ All colors MUST be HSL.
   .hero-section {
     @apply bg-gradient-to-br from-primary/10 via-accent/20 to-secondary/30;
     box-shadow: var(--hero-shadow);
+    border-radius: 2.5rem;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 2rem;
   }
   
   .section-bg {
@@ -143,11 +165,17 @@ All colors MUST be HSL.
   
   .blog-card {
     box-shadow: var(--card-shadow);
-    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+    @apply transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 hover:scale-105 hover-glow;
+    border-radius: 1.5rem;
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(8px);
+    border: 1.5px solid hsl(var(--border));
   }
   
   .comparison-table {
-    @apply overflow-hidden rounded-xl border border-border shadow-sm;
+    @apply overflow-hidden rounded-2xl border-2 border-primary/20 shadow-lg;
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(6px);
   }
   
   .animate-fade-in-up {
@@ -159,7 +187,9 @@ All colors MUST be HSL.
   }
   
   .text-gradient {
-    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent;
+    background-size: 200% 200%;
+    animation: gradient-shift 3s ease infinite;
   }
 
   /* Enhanced animations */
@@ -177,11 +207,13 @@ All colors MUST be HSL.
 
   /* Glass morphism effect */
   .glass {
-    @apply bg-white/10 backdrop-blur-md border border-white/20;
+    @apply bg-white/30 backdrop-blur-lg border border-white/30 shadow-lg;
+    border-radius: 1.5rem;
   }
 
   .glass-dark {
-    @apply bg-black/10 backdrop-blur-md border border-black/20;
+    @apply bg-black/30 backdrop-blur-lg border border-black/30 shadow-lg;
+    border-radius: 1.5rem;
   }
 
   /* Gradient text animations */
@@ -193,11 +225,11 @@ All colors MUST be HSL.
 
   /* Hover effects */
   .hover-lift {
-    @apply transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl;
+    @apply transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl hover:scale-105;
   }
 
   .hover-glow {
-    @apply transition-all duration-300 hover:shadow-lg hover:shadow-primary/25;
+    @apply transition-all duration-300 hover:shadow-2xl hover:shadow-accent/30;
   }
 
   /* Responsive text utilities */
